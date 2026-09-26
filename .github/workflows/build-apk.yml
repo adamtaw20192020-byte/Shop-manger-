@@ -3,7 +3,9 @@ name: Build Android APK
 on:
   workflow_dispatch:
   push:
-    branches: [ "main", "master" ]
+    branches:
+      - main
+      - master
 
 jobs:
   build-apk:
@@ -25,8 +27,15 @@ jobs:
           channel: stable
           cache: true
 
-      - name: Restore Flutter Android files
-        run: flutter create --platforms=android .
+      - name: Check Flutter version
+        run: flutter --version
+
+      - name: Check Android Gradle settings
+        run: |
+          echo "===== android/gradle.properties ====="
+          cat android/gradle.properties
+          echo "===== android/gradle/wrapper/gradle-wrapper.properties ====="
+          cat android/gradle/wrapper/gradle-wrapper.properties
 
       - name: Get dependencies
         run: flutter pub get
@@ -34,9 +43,14 @@ jobs:
       - name: Build release APK
         run: flutter build apk --release
 
+      - name: Rename APK
+        run: |
+          cp build/app/outputs/flutter-apk/app-release.apk \
+             build/app/outputs/flutter-apk/bird-shop-manager.apk
+
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
-          name: shop-manager-apk
-          path: build/app/outputs/flutter-apk/app-release.apk
+          name: bird-shop-manager-apk
+          path: build/app/outputs/flutter-apk/bird-shop-manager.apk
           if-no-files-found: error
