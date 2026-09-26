@@ -1,6 +1,6 @@
 plugins {
     id "com.android.application"
-    id "kotlin-android"
+    id "org.jetbrains.kotlin.android"
     id "dev.flutter.flutter-gradle-plugin"
 }
 
@@ -43,7 +43,7 @@ android {
     defaultConfig {
         // نفس معرّف التطبيق الأصلي (كان في app.json الخاص بنسخة Expo)
         applicationId "com.tayouralsaida2.shopmanager"
-        minSdkVersion 21
+        minSdkVersion 24
         targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
