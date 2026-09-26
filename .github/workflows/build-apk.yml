@@ -30,15 +30,33 @@ jobs:
       - name: Check Flutter version
         run: flutter --version
 
+      - name: Check Java version
+        run: java -version
+
       - name: Check Android Gradle settings
         run: |
-          echo "===== android/gradle.properties ====="
+          echo "===== gradle.properties ====="
           cat android/gradle.properties
-          echo "===== android/gradle/wrapper/gradle-wrapper.properties ====="
+          echo "===== gradle-wrapper.properties ====="
           cat android/gradle/wrapper/gradle-wrapper.properties
 
       - name: Get dependencies
         run: flutter pub get
+
+      - name: Clean Java environment
+        run: |
+          unset JAVA_OPTS
+          unset GRADLE_OPTS
+          unset JAVA_TOOL_OPTIONS
+          unset _JAVA_OPTIONS
+
+          echo "JAVA_OPTS=$JAVA_OPTS"
+          echo "GRADLE_OPTS=$GRADLE_OPTS"
+          echo "JAVA_TOOL_OPTIONS=$JAVA_TOOL_OPTIONS"
+          echo "_JAVA_OPTIONS=$_JAVA_OPTIONS"
+
+      - name: Clean Flutter project
+        run: flutter clean
 
       - name: Build release APK
         run: flutter build apk --release
